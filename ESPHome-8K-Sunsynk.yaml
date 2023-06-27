@@ -2,7 +2,8 @@
 substitutions:
 # Device Names
   device_name: "sunsynk"
-  friendly_name: "SunSynk Inverter"
+  friendly_name: "SunSynk"
+  device_description: "Sunsynk RS485 Logger"
   settings_skipped_updates: "30"
 
 # Icon
@@ -11,6 +12,7 @@ substitutions:
 # Basic Config
 esphome:
   name: "${device_name}"
+  comment: '${device_description}'
 
 esp32:
   board: lolin32_lite
@@ -83,7 +85,7 @@ modbus_controller:
 binary_sensor:           
   - platform: modbus_controller            # 194 Grid Connected Status
     modbus_controller_id: sunsynk
-    name: "Grid Connected Status"
+    name: "${friendly_name} Grid Connected Status"
     id: grid_connected_status
     register_type: holding
     address: 194
@@ -92,7 +94,7 @@ binary_sensor:
 sensor:
   - platform: modbus_controller            # 013 Firmware Control Board
     modbus_controller_id: sunsynk
-    name: "Firmware Control Board"
+    name: "${friendly_name} Firmware Control Board"
     id: sunsynk_firmware_control_board
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -100,15 +102,15 @@ sensor:
 
   - platform: modbus_controller            # 014 Firmware Comms Board
     modbus_controller_id: sunsynk
-    name: "Firmware Comms Board"
+    name: "${friendly_name} Firmware Comms Board"
     id: sunsynk_firmware_comms_board
     register_type: holding
     skip_updates: ${settings_skipped_updates}
     address: 14
 
-  - platform: modbus_controller            # 070 Battery Charge Day
+  - platform: modbus_controller            # 070 Daily Battery Charge
     modbus_controller_id: sunsynk
-    name: "Battery Charge Day"
+    name: "${friendly_name} Daily Battery Charge"
     id: sunsynk_battery_charge_day
     register_type: holding
     address: 70
@@ -120,9 +122,9 @@ sensor:
     filters:
       - multiply: 0.1
 
-  - platform: modbus_controller            # 071 Battery Discharge Day
+  - platform: modbus_controller            # 071 Daily Battery Discharge
     modbus_controller_id: sunsynk
-    name: "Battery Discharge Day"
+    name: "${friendly_name} Daily Battery Discharge"
     id: sunsynk_battery_discharge_day
     register_type: holding
     address: 71
@@ -134,9 +136,9 @@ sensor:
     filters:
       - multiply: 0.1
 
-  - platform: modbus_controller            # 072 Battery Charge Energy Total
+  - platform: modbus_controller            # 072 Total Battery Charge
     modbus_controller_id: sunsynk
-    name: "Total Battery Charge (kWh)"
+    name: "${friendly_name} Total Battery Charge (kWh)"
     id: sunsynk_total_battery_charge_kwh
     register_type: holding
     address: 72
@@ -148,9 +150,9 @@ sensor:
     filters:
      - multiply: 0.1
 
-  - platform: modbus_controller            # 074 Battery Discharge Energy Total
+  - platform: modbus_controller            # 074 Total Battery Discharge
     modbus_controller_id: sunsynk
-    name: "Total Battery Discharge (kWh)"
+    name: "${friendly_name} Total Battery Discharge (kWh)"
     id: sunsynk_total_battery_discharge_kwh
     register_type: holding
     address: 74
@@ -162,9 +164,9 @@ sensor:
     filters:
      - multiply: 0.1
 
-  - platform: modbus_controller            # 076 Grid Import Day (Buy)
+  - platform: modbus_controller            # 076 Daily Grid Import (Buy)
     modbus_controller_id: sunsynk
-    name: "Grid Import Day (Buy)"
+    name: "${friendly_name} Daily Grid Import (Buy)"
     id: sunsynk_grid_import_day
     register_type: holding
     address: 76
@@ -176,9 +178,9 @@ sensor:
     filters:
       - multiply: 0.1
 
-  - platform: modbus_controller            # 078 Grid Import Energy Total (Buy)
+  - platform: modbus_controller            # 078 Total Grid Import (Buy)
     modbus_controller_id: sunsynk
-    name: "Total Grid Import (kWh)"
+    name: "${friendly_name} Total Grid Import (kWh)"
     id: sunsynk_total_grid_import_kwh
     register_type: holding
     address: 78
@@ -192,7 +194,7 @@ sensor:
 
   - platform: modbus_controller            # 079 Grid Frequency
     modbus_controller_id: sunsynk
-    name: "Grid Frequency"
+    name: "${friendly_name} Grid Frequency"
     id: sunsynk_grid_frequency
     register_type: holding
     address: 79
@@ -205,7 +207,7 @@ sensor:
 
   - platform: modbus_controller            # 081 Grid Export Energy Total (Sell)
     modbus_controller_id: sunsynk
-    name: "Total Grid Export (kWh)"
+    name: "${friendly_name} Total Grid Export (kWh)"
     id: sunsynk_total_grid_export_kwh
     register_type: holding
     address: 81
@@ -219,7 +221,7 @@ sensor:
 
   - platform: modbus_controller            # 084 Daily Load
     modbus_controller_id: sunsynk
-    name: "Daily Load Power (kWh)"
+    name: "${friendly_name} Daily Load Power (kWh)"
     id: sunsynk_daily_load_power_kwh
     register_type: holding
     address: 84
@@ -233,7 +235,7 @@ sensor:
 
   - platform: modbus_controller            # 085 Total Load
     modbus_controller_id: sunsynk
-    name: "Total Load Power (kWh)"
+    name: "${friendly_name} Total Load Power (kWh)"
     id: sunsynk_total_load_power_kwh
     register_type: holding
     address: 85
@@ -247,7 +249,7 @@ sensor:
 
   - platform: modbus_controller            # 090 DC Transformer Temperature
     modbus_controller_id: sunsynk
-    name: "DC Transformer Temperature"
+    name: "${friendly_name} DC Transformer Temperature"
     id: sunsynk_dctransformer_temperature
     register_type: holding
     address: 090
@@ -262,7 +264,7 @@ sensor:
 
   - platform: modbus_controller            # 091 DC Heatsink Temperature
     modbus_controller_id: sunsynk
-    name: "DC Heatsink Temperature"
+    name: "${friendly_name} DC Heatsink Temperature"
     id: sunsynk_heatsink_temperature
     register_type: holding
     address: 091
@@ -275,9 +277,9 @@ sensor:
       - offset: -1000
       - multiply:  0.1
 
-  - platform: modbus_controller            # 096 PV Energy Total
+  - platform: modbus_controller            # 096 Total PV Power
     modbus_controller_id: sunsynk
-    name: "Total PV Power (kWh)"
+    name: "${friendly_name} Total PV Power (kWh)"
     id: sunsynk_total_pv_power_kwh
     register_type: holding
     address: 96
@@ -290,9 +292,9 @@ sensor:
     value_type: U_DWORD_R  
 
 
-  - platform: modbus_controller            # 108 Day PV Power
+  - platform: modbus_controller            # 108 Daily PV Power
     modbus_controller_id: sunsynk
-    name: "Daily PV Power (kWh)"
+    name: "${friendly_name} Daily PV Power (kWh)"
     id: sunsynk_daily_pv_power_kwh
     register_type: holding
     address: 108
@@ -307,7 +309,7 @@ sensor:
 
   - platform: modbus_controller            # 109 DC1 Voltage
     modbus_controller_id: sunsynk
-    name: "DC1 Voltage"
+    name: "${friendly_name} DC1 Voltage"
     id: sunsynk_dc1_voltage
     register_type: holding
     address: 109
@@ -320,7 +322,7 @@ sensor:
 
   - platform: modbus_controller            # 111 DC2 Voltage
     modbus_controller_id: sunsynk
-    name: "DC2 Voltage"
+    name: "${friendly_name} DC2 Voltage"
     id: sunsynk_dc2_voltage
     register_type: holding
     address: 111
@@ -333,7 +335,7 @@ sensor:
 
   - platform: modbus_controller            # 110 DC1 Output Current
     modbus_controller_id: sunsynk
-    name: "DC1 Current"
+    name: "${friendly_name} DC1 Current"
     id: sunsynk_dc1_current
     register_type: holding
     address: 110
@@ -347,7 +349,7 @@ sensor:
 
   - platform: modbus_controller            # 112 DC2 Output Current
     modbus_controller_id: sunsynk
-    name: "DC2 Current"
+    name: "${friendly_name} DC2 Current"
     id: sunsynk_dc2_current
     register_type: holding
     address: 112
@@ -361,7 +363,7 @@ sensor:
 
   - platform: modbus_controller            # 154 Grid Inverter Voltage
     modbus_controller_id: sunsynk
-    name: "Grid Inverter Voltage"
+    name: "${friendly_name} Grid Inverter Voltage"
     id: sunsynk_grid_inverter_voltage
     register_type: holding
     address: 154
@@ -375,7 +377,7 @@ sensor:
 
   - platform: modbus_controller            # 164 Inverter Output Current
     modbus_controller_id: sunsynk
-    name: "Inverter Output Current"
+    name: "${friendly_name} Inverter Output Current"
     id: sunsynk_inverter_output_current
     register_type: holding
     address: 164
@@ -389,7 +391,7 @@ sensor:
 
   - platform: modbus_controller            # 166 Aux Output Power
     modbus_controller_id: sunsynk
-    name: "Aux Output Power"
+    name: "${friendly_name} Aux Output Power"
     id: sunsynk_aux_output_power
     register_type: holding
     address: 166
@@ -401,7 +403,7 @@ sensor:
 
   - platform: modbus_controller             # 167 Grid Power
     modbus_controller_id: sunsynk
-    name: "Grid Power 167"
+    name: "${friendly_name} Grid Power 167"
     id: sunsynk_grid_power_167
     register_type: holding
     address: 167
@@ -419,7 +421,7 @@ sensor:
 
   - platform: modbus_controller             # 169 Grid Power
     modbus_controller_id: sunsynk
-    name: "Grid Power"
+    name: "${friendly_name} Grid Power"
     id: sunsynk_grid_power
     register_type: holding
     address: 169
@@ -437,7 +439,7 @@ sensor:
 
   - platform: modbus_controller            # 172 Grid External Power
     modbus_controller_id: sunsynk
-    name: "Grid External Power"
+    name: "${friendly_name} Grid External Power"
     id: sunsynk_grid_external_power
     register_type: holding
     address: 172
@@ -456,7 +458,7 @@ sensor:
 
   - platform: modbus_controller            # 175 Inverter Output Power
     modbus_controller_id: sunsynk
-    name: "Inverter Output Power"
+    name: "${friendly_name} Inverter Output Power"
     id: sunsynk_inverter_output_power
     register_type: holding
     address: 175
@@ -467,7 +469,7 @@ sensor:
 
   - platform: modbus_controller            # 178 Load Power
     modbus_controller_id: sunsynk
-    name: "Load Power"
+    name: "${friendly_name} Load Power"
     id: sunsynk_load_power
     register_type: holding
     address: 178
@@ -480,7 +482,7 @@ sensor:
   
   - platform: modbus_controller            # 182 Battery Temperature
     modbus_controller_id: sunsynk
-    name: "Battery Temperature"
+    name: "${friendly_name} Battery Temperature"
     id: sunsynk_battery_temperature
     register_type: holding
     address: 182
@@ -495,7 +497,7 @@ sensor:
 
   - platform: modbus_controller            # 183 Battery Voltage
     modbus_controller_id: sunsynk
-    name: "Battery Voltage"
+    name: "${friendly_name} Battery Voltage"
     id: sunsynk_battery_voltage
     register_type: holding
     address: 183
@@ -509,7 +511,7 @@ sensor:
 
   - platform: modbus_controller            # 184 Battery SOC
     modbus_controller_id: sunsynk
-    name: "Battery SOC"
+    name: "${friendly_name} Battery SOC"
     id: sunsynk_battery_soc
     register_type: holding
     address: 184
@@ -520,7 +522,7 @@ sensor:
 
   - platform: modbus_controller            # 186 PV1 Power
     modbus_controller_id: sunsynk
-    name: "PV1 Power"
+    name: "${friendly_name} PV1 Power"
     id: sunsynk_pv1_power
     register_type: holding
     address: 186
@@ -532,7 +534,7 @@ sensor:
     
   - platform: modbus_controller            # 187 PV2 Power
     modbus_controller_id: sunsynk
-    name: "PV2 Power"
+    name: "${friendly_name} PV2 Power"
     id: sunsynk_pv2_power
     register_type: holding
     address: 187
@@ -543,7 +545,7 @@ sensor:
     value_type: U_WORD
 
   - platform: template                   # Sum of PV1 and PV2 to get total PV Power
-    name: "Total Solar"
+    name: "${friendly_name} Total Solar"
     unit_of_measurement: "W"
     accuracy_decimals: 0
     device_class: power
@@ -554,7 +556,7 @@ sensor:
 
   - platform: modbus_controller            # 190 Battery Output Power
     modbus_controller_id: sunsynk
-    name: "Battery Output Power"
+    name: "${friendly_name} Battery Output Power"
     id: sunsynk_battery_output_power
     register_type: holding
     address: 190
@@ -565,7 +567,7 @@ sensor:
 
   - platform: modbus_controller            # 191 Battery Output Current
     modbus_controller_id: sunsynk
-    name: "Battery Output Current"
+    name: "${friendly_name} Battery Output Current"
     id: sunsynk_battery_output_current
     register_type: holding
     address: 191
@@ -579,7 +581,7 @@ sensor:
 
   - platform: modbus_controller            # 192 Load Frequency
     modbus_controller_id: sunsynk
-    name: "Load Frequency"
+    name: "${friendly_name} Load Frequency"
     id: sunsynk_load_frequency
     register_type: holding
     address: 192
@@ -592,7 +594,7 @@ sensor:
 
   - platform: modbus_controller            # 217 Battery Capacity Shutdown
     modbus_controller_id: sunsynk
-    name: "Battery Capacity Shutdown"
+    name: "${friendly_name} Battery Capacity Shutdown"
     id: sunsynk_battery_capacity_shutdown
     register_type: holding
     address: 217
@@ -601,7 +603,7 @@ sensor:
     device_class: battery
 
   - platform: template                   # Essential Power based on register 175 + 167 -166
-    name: "Essential Power"
+    name: "${friendly_name} Essential Power"
     unit_of_measurement: "W"
     accuracy_decimals: 0
     device_class: power
@@ -611,7 +613,7 @@ sensor:
     update_interval: 5s
 
   - platform: template                   # Essential Power based on register 175 + 169 -166
-    name: "Essential Power 1"
+    name: "${friendly_name} Essential Power 1"
     unit_of_measurement: "W"
     accuracy_decimals: 0
     device_class: power
@@ -621,7 +623,7 @@ sensor:
     update_interval: 5s
 
   - platform: template                   # Nonessential Power 175 - 167
-    name: "Nonessential Power"
+    name: "${friendly_name} Nonessential Power"
     unit_of_measurement: "W"
     accuracy_decimals: 0
     device_class: power
@@ -631,7 +633,7 @@ sensor:
     update_interval: 5s
 
   - platform: template                   # Nonessential Power 175 - 169
-    name: "Nonessential Power 1"
+    name: "${friendly_name} Nonessential Power 1"
     unit_of_measurement: "W"
     accuracy_decimals: 0
     device_class: power
@@ -643,7 +645,7 @@ sensor:
 ################################################ READ SETTINGS ################################################
   - platform: modbus_controller          # 250 Settings Timezone1
     modbus_controller_id: sunsynk
-    name: "Setting Timezone1"
+    name: "${friendly_name} Setting Timezone1"
     id: sunsynk_setting_timezone1
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -656,7 +658,7 @@ sensor:
 
   - platform: modbus_controller          # 251 Settings Timezone2
     modbus_controller_id: sunsynk
-    name: "Setting Timezone2"
+    name: "${friendly_name} Setting Timezone2"
     id: sunsynk_setting_timezone2
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -669,7 +671,7 @@ sensor:
 
   - platform: modbus_controller          # 252 Settings Timezone3
     modbus_controller_id: sunsynk
-    name: "Setting Timezone3"
+    name: "${friendly_name} Setting Timezone3"
     id: sunsynk_setting_timezone3
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -682,7 +684,7 @@ sensor:
 
   - platform: modbus_controller          # 253 Settings Timezone4
     modbus_controller_id: sunsynk
-    name: "Setting Timezone4"
+    name: "${friendly_name} Setting Timezone4"
     id: sunsynk_setting_timezone4
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -691,7 +693,7 @@ sensor:
 
   - platform: modbus_controller          # 254 Settings Timezone5
     modbus_controller_id: sunsynk
-    name: "Setting Timezone5"
+    name: "${friendly_name} Setting Timezone5"
     id: sunsynk_setting_timezone5
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -704,7 +706,7 @@ sensor:
 
   - platform: modbus_controller          # 255 Settings Timezone6
     modbus_controller_id: sunsynk
-    name: "Setting Timezone6"
+    name: "${friendly_name} Setting Timezone6"
     id: sunsynk_setting_timezone6
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -718,7 +720,7 @@ sensor:
 
   - platform: modbus_controller          # 268 Settings SoC Timezone1
     modbus_controller_id: sunsynk
-    name: "Setting SoC Timezone1"
+    name: "${friendly_name} Setting SoC Timezone1"
     id: sunsynk_setting_soc_timezone1
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -727,7 +729,7 @@ sensor:
 
   - platform: modbus_controller          # 269 Settings SoC Timezone2
     modbus_controller_id: sunsynk
-    name: "Setting SoC Timezone2"
+    name: "${friendly_name} Setting SoC Timezone2"
     id: sunsynk_setting_soc_timezone2
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -736,7 +738,7 @@ sensor:
 
   - platform: modbus_controller          # 270 Settings SoC Timezone3
     modbus_controller_id: sunsynk
-    name: "Setting SoC Timezone3"
+    name: "${friendly_name} Setting SoC Timezone3"
     id: sunsynk_setting_soc_timezone3
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -745,7 +747,7 @@ sensor:
 
   - platform: modbus_controller          # 271 Settings SoC Timezone4
     modbus_controller_id: sunsynk
-    name: "Setting SoC Timezone4"
+    name: "${friendly_name} Setting SoC Timezone4"
     id: sunsynk_setting_soc_timezone4
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -754,7 +756,7 @@ sensor:
 
   - platform: modbus_controller          # 272 Settings SoC Timezone5
     modbus_controller_id: sunsynk
-    name: "Setting SoC Timezone5"
+    name: "${friendly_name} Setting SoC Timezone5"
     id: sunsynk_setting_soc_timezone5
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -763,7 +765,7 @@ sensor:
 
   - platform: modbus_controller          # 273 Settings SoC Timezone6
     modbus_controller_id: sunsynk
-    name: "Setting SoC Timezone6"
+    name: "${friendly_name} Setting SoC Timezone6"
     id: sunsynk_setting_soc_timezone6
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -772,7 +774,7 @@ sensor:
 
   - platform: modbus_controller          # 274 Settings Grid Charge Timezone1
     modbus_controller_id: sunsynk
-    name: "Setting Grid Charge Timezone1"
+    name: "${friendly_name} Setting Grid Charge Timezone1"
     id: sunsynk_setting_grid_charge_timezone1
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -780,7 +782,7 @@ sensor:
 
   - platform: modbus_controller          # 275 Settings Grid Charge Timezone2
     modbus_controller_id: sunsynk
-    name: "Setting Grid Charge Timezone2"
+    name: "${friendly_name} Setting Grid Charge Timezone2"
     id: sunsynk_setting_grid_charge_timezone2
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -788,7 +790,7 @@ sensor:
     
   - platform: modbus_controller          # 276 Settings Grid Charge Timezone3
     modbus_controller_id: sunsynk
-    name: "Setting Grid Charge Timezone3"
+    name: "${friendly_name} Setting Grid Charge Timezone3"
     id: sunsynk_setting_grid_charge_timezone3
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -796,7 +798,7 @@ sensor:
     
   - platform: modbus_controller          # 277 Settings Grid Charge Timezone4
     modbus_controller_id: sunsynk
-    name: "Setting Grid Charge Timezone4"
+    name: "${friendly_name} Setting Grid Charge Timezone4"
     id: sunsynk_setting_grid_charge_timezone4
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -804,7 +806,7 @@ sensor:
     
   - platform: modbus_controller          # 278 Settings Grid Charge Timezone5
     modbus_controller_id: sunsynk
-    name: "Setting Grid Charge Timezone5"
+    name: "${friendly_name} Setting Grid Charge Timezone5"
     id: sunsynk_setting_grid_charge_timezone5
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -812,7 +814,7 @@ sensor:
     
   - platform: modbus_controller          # 279 Settings Grid Charge Timezone6
     modbus_controller_id: sunsynk
-    name: "Setting Grid Charge Timezone6"
+    name: "${friendly_name} Setting Grid Charge Timezone6"
     id: sunsynk_setting_grid_charge_timezone6
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -824,7 +826,7 @@ switch:
   - platform: modbus_controller          # 247 Toggle Solar Sell
     use_write_multiple: true
     modbus_controller_id: sunsynk
-    name: "Toggle Solar sell"
+    name: "${friendly_name} Toggle Solar sell"
     id: sunsynk_toggle_solar_sell
     register_type: holding
     address: 247
@@ -835,7 +837,7 @@ switch:
   - platform: modbus_controller          # 248 Toggle System Timer
     use_write_multiple: true
     modbus_controller_id: sunsynk
-    name: "Toggle System Timer" 
+    name: "${friendly_name} Toggle System Timer" 
     id: sunsynk_toggle_Time_of_Use
     register_type: holding
     address: 248
@@ -846,7 +848,7 @@ switch:
   - platform: modbus_controller          # 243 Priority Load
     use_write_multiple: true
     modbus_controller_id: sunsynk
-    name: "Toggle Priority Load" 
+    name: "${friendly_name} Toggle Priority Load" 
     id: sunsynk_toggle_priority_load
     register_type: holding
     address: 243
@@ -857,7 +859,7 @@ switch:
   - platform: modbus_controller          # 274 Toggle Grid Charge Timezone1
     use_write_multiple: true
     modbus_controller_id: sunsynk
-    name: "Toggle Grid Charge Timezone1"
+    name: "${friendly_name} Toggle Grid Charge Timezone1"
     id: sunsynk_toggle_grid_charge_timezone1
     register_type: holding
     address: 274
@@ -868,7 +870,7 @@ switch:
   - platform: modbus_controller          # 275 Toggle Grid Charge Timezone2
     modbus_controller_id: sunsynk
     use_write_multiple: true
-    name: "Toggle Grid Charge Timezone2"
+    name: "${friendly_name} Toggle Grid Charge Timezone2"
     id: sunsynk_toggle_grid_charge_timezone2
     register_type: holding
     address: 275
@@ -879,7 +881,7 @@ switch:
   - platform: modbus_controller          # 276 Toggle Grid Charge Timezone3
     modbus_controller_id: sunsynk
     use_write_multiple: true
-    name: "Toggle Grid Charge Timezone3"
+    name: "${friendly_name} Toggle Grid Charge Timezone3"
     id: sunsynk_toggle_grid_charge_timezone3
     register_type: holding
     address: 276
@@ -890,7 +892,7 @@ switch:
   - platform: modbus_controller          # 277 Toggle Grid Charge Timezone4
     modbus_controller_id: sunsynk
     use_write_multiple: true
-    name: "Toggle Grid Charge Timezone4"
+    name: "${friendly_name} Toggle Grid Charge Timezone4"
     id: sunsynk_toggle_grid_charge_timezone4
     register_type: holding
     address: 277
@@ -901,7 +903,7 @@ switch:
   - platform: modbus_controller          # 278 Toggle Grid Charge Timezone5
     modbus_controller_id: sunsynk
     use_write_multiple: true
-    name: "Toggle Grid Charge Timezone5"
+    name: "${friendly_name} Toggle Grid Charge Timezone5"
     id: sunsynk_toggle_grid_charge_timezone5
     register_type: holding
     address: 278
@@ -912,7 +914,7 @@ switch:
   - platform: modbus_controller          # 279 Toggle Grid Charge Timezone6
     modbus_controller_id: sunsynk
     use_write_multiple: true
-    name: "Toggle Grid Charge Timezone6"
+    name: "${friendly_name} Toggle Grid Charge Timezone6"
     id: sunsynk_toggle_grid_charge_timezone6
     register_type: holding
     address: 279
@@ -925,7 +927,7 @@ number:
     use_write_multiple: true
     modbus_controller_id: sunsynk
     id: sunsynk_set_soc_timezone1
-    name: "Set SoC Timezone1"
+    name: "${friendly_name} Set SoC Timezone1"
     unit_of_measurement: "%"
     address: 268
     min_value: 0
@@ -937,7 +939,7 @@ number:
     use_write_multiple: true
     modbus_controller_id: sunsynk
     id: sunsynk_set_soc_timezone2
-    name: "Set SoC Timezone2"
+    name: "${friendly_name} Set SoC Timezone2"
     unit_of_measurement: "%"
     address: 269
     min_value: 0
@@ -949,7 +951,7 @@ number:
     use_write_multiple: true
     modbus_controller_id: sunsynk
     id: sunsynk_set_soc_timezone3
-    name: "Set SoC Timezone3"
+    name: "${friendly_name} Set SoC Timezone3"
     unit_of_measurement: "%"
     address: 270
     min_value: 0
@@ -961,7 +963,7 @@ number:
     use_write_multiple: true
     modbus_controller_id: sunsynk
     id: sunsynk_set_soc_timezone4
-    name: "Set SoC Timezone4"
+    name: "${friendly_name} Set SoC Timezone4"
     unit_of_measurement: "%"
     address: 271
     min_value: 0
@@ -973,7 +975,7 @@ number:
     use_write_multiple: true
     modbus_controller_id: sunsynk
     id: sunsynk_set_soc_timezone5
-    name: "Set SoC Timezone5"
+    name: "${friendly_name} Set SoC Timezone5"
     unit_of_measurement: "%"
     address: 272
     min_value: 0
@@ -985,7 +987,7 @@ number:
     use_write_multiple: true
     modbus_controller_id: sunsynk
     id: sunsynk_set_soc_timezone6
-    name: "Set SoC Timezone6"
+    name: "${friendly_name} Set SoC Timezone6"
     unit_of_measurement: "%"
     address: 273
     min_value: 0
@@ -998,7 +1000,7 @@ number:
 text_sensor:
   - platform: modbus_controller            # 059 Overall State
     modbus_controller_id: sunsynk
-    name: "Overall State"
+    name: "${friendly_name} Overall State"
     id: sunsynk_overall_state
     register_type: holding
     skip_updates: ${settings_skipped_updates}
@@ -1015,7 +1017,7 @@ text_sensor:
         default: return std::string("unknown");
       }
   - platform: template
-    name: "Sunsynk Time Slot 1"
+    name: "${friendly_name} Time Slot 1"
     id: sunsynk_time_slot_1
     lambda: |-
         int minutes, hours;
@@ -1030,7 +1032,7 @@ text_sensor:
         snprintf(formatted_time, sizeof(formatted_time), "%02d:%02d", hours, minutes);
         return esphome::optional<std::string>(formatted_time);
   - platform: template
-    name: "Sunsynk Time Slot 2"
+    name: "${friendly_name} Time Slot 2"
     id: sunsynk_time_slot_2
     lambda: |-
         int minutes, hours;
@@ -1045,7 +1047,7 @@ text_sensor:
         snprintf(formatted_time, sizeof(formatted_time), "%02d:%02d", hours, minutes);
         return esphome::optional<std::string>(formatted_time);
   - platform: template
-    name: "Sunsynk Time Slot 3"
+    name: "${friendly_name} Time Slot 3"
     id: sunsynk_time_slot_3
     lambda: |-
         int minutes, hours;
@@ -1060,7 +1062,7 @@ text_sensor:
         snprintf(formatted_time, sizeof(formatted_time), "%02d:%02d", hours, minutes);
         return esphome::optional<std::string>(formatted_time);
   - platform: template
-    name: "Sunsynk Time Slot 4"
+    name: "${friendly_name} Time Slot 4"
     id: sunsynk_time_slot_4
     lambda: |-
         int minutes, hours;
@@ -1075,7 +1077,7 @@ text_sensor:
         snprintf(formatted_time, sizeof(formatted_time), "%02d:%02d", hours, minutes);
         return esphome::optional<std::string>(formatted_time);
   - platform: template
-    name: "Sunsynk Time Slot 5"
+    name: "${friendly_name} Time Slot 5"
     id: sunsynk_time_slot_5
     lambda: |-
         int minutes, hours;
@@ -1090,7 +1092,7 @@ text_sensor:
         snprintf(formatted_time, sizeof(formatted_time), "%02d:%02d", hours, minutes);
         return esphome::optional<std::string>(formatted_time);
   - platform: template
-    name: "Sunsynk Time Slot 6"
+    name: "${friendly_name} Time Slot 6"
     id: sunsynk_time_slot_6
     lambda: |-
         int minutes, hours;
@@ -1106,7 +1108,7 @@ text_sensor:
         return esphome::optional<std::string>(formatted_time);
 
   # - platform: template
-  #   name: "Sunsynk Battery Capacity"
+  #   name: "${friendly_name} Battery Capacity"
   #   id: sunsynk_battery_capacity
   #   lambda: |-
   #     if (!id(grid_connected_status).state) {
@@ -1211,7 +1213,7 @@ text_sensor:
   #     }
 
   # - platform: template
-  #   name: "Sunsynk Battery Duration"
+  #   name: "${friendly_name} Battery Duration"
   #   lambda: |-
   #     int totalSeconds = 0;
   #     float battery_power = id(sunsynk_battery_output_power).state;

@@ -86,7 +86,7 @@ binary_sensor:
   - platform: modbus_controller            # 194 Grid Connected Status
     modbus_controller_id: sunsynk
     name: "${friendly_name} Grid Connected Status"
-    id: grid_connected_status
+    id: sunsynk_grid_connected_status
     register_type: holding
     address: 194
 
